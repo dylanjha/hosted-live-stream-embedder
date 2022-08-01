@@ -5,12 +5,12 @@ const CONNECTING = "connecting";
 const CONNECTED = "connected";
 const DISCONNECTED = "disconnected";
 
-export default function useListener() {
+export default function useListener(path: string) {
   const [connectionState, setConnectionState] = useState(DISCONNECTED);
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
-    const events = new EventSource("/api/listen");
+    const events = new EventSource(path);
     setConnectionState(CONNECTING);
     events.addEventListener("open", () => setConnectionState(CONNECTED));
     events.addEventListener("error", () => {

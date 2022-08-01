@@ -1,8 +1,8 @@
 import { Handlers } from "$fresh/server.ts";
 
 export const handler: Handlers = {
-  GET(_req) {
-    const channel = new BroadcastChannel("streamzzz");
+  GET(_req, ctx) {
+    const channel = new BroadcastChannel(ctx.params.playbackId);
 
     const stream = new ReadableStream({
       start: (controller) => {

@@ -18,9 +18,7 @@ declare module "preact" {
 }
 
 export default function Player (props: PlayerProps) {
-  const {connectionState, messages} = useListener();
-
-  const lastMessage = (messages.length && messages[messages.length - 1]) || null
+  const { messages } = useListener(`/api/listen/${props.playbackId}`);
 
   return (
     <main>
@@ -28,17 +26,16 @@ export default function Player (props: PlayerProps) {
         <div class={tw`md:col-span-2`}>
           <div class={tw`w-full`} style={{ aspectRatio: '16/9' }}>
             <mux-player
-              stream-type="on-demand"
+              stream-type="live"
               playback-id={props.playbackId}
               metadata-video-title="Test video title"
               metadata-viewer-user-id="user-id-007"
+              class="w-full"
             ></mux-player>
           </div>
         </div>
         <div class={tw`md:col-span-1 px-4 py-3`}>
-          <h2 class={tw`text-md text-gray-400 font-bold`}>{connectionState}</h2>
-          <h2 class={tw`text-xl text-gray-700 font-bold`}>{lastMessage ? lastMessage : ''}</h2>
-          <ul>
+          <ul class={tw`text-blue-400`}>
             {messages.map((msg) => <li>{msg.message}</li>)}
           </ul>
         </div>
